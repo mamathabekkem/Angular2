@@ -1,18 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpModule} from "@angular/http";
+
+import { MyComponent } from './app.component';
+import {MyComponentadta} from './app.secondCom';
+import {MyRouteService} from './app.route.module';
+import {MySortPipe} from './lazy/app.pipe';
+import {RouterModule,Routes} from '@angular/router';
+import {canService} from './app.canService';
+
+import {UserInformation} from './user.login';
 
 
-import { AppComponent } from './app.component';
-
+const myRoute:Routes=[
+  {path:'second',component:MyComponentadta},
+  {path:'user/:name',component:UserInformation,canActivate:[canService]}
+]
 
 @NgModule({
   declarations: [
-    AppComponent
+    MyComponent,
+    MyComponentadta,
+    MySortPipe,
+    UserInformation
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule,
+    MyRouteService,
+    RouterModule.forRoot(myRoute)
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [canService],
+  bootstrap: [MyComponent]
 })
 export class AppModule { }
